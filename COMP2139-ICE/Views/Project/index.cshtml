@@ -32,8 +32,15 @@
                 <td>@project.Description</td> 
                 
                 <td><!--Lab4 - Part5 - #1 --> 
-                    <a asp-action="Details" asp-route-id="@project.ProjectId" class="btn btn-info">Details</a> 
-                    <a asp-action="Delete" asp-route-id="@project.ProjectId" class="btn btn-danger">Delete</a> 
+                    <!--Details-->
+                    <a asp-action="Details" asp-route-id="@project.ProjectId" class="btn btn-info">Details</a>
+                    <!--Delete-->
+                    <a asp-action="Delete" asp-route-id="@project.ProjectId" class="btn btn-danger">Delete</a>
+                    <!--Edit-->
+                    <a asp-action="Edit" asp-route-id="@project.ProjectId" class="btn btn-danger">Edit</a>
+                    <!--View Tasks-->
+                    <a asp-controller="ProjectTask" asp-action="Index" asp-route-projectId="@project.ProjectId" class="btn btn-danger">View Task</a>
+                    
                 </td> 
                 <!-- Render other project properties as needed --> 
             </tr> 

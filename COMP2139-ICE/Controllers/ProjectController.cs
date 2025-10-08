@@ -8,15 +8,13 @@ namespace COMP2139_ICE.Controllers;
 public class ProjectController : Controller
 
 {
-
     private readonly ApplicationDbContext _context;
 
     public ProjectController(ApplicationDbContext context)
     {
         _context = context;
     }
-
-
+    
     [HttpGet]
     public IActionResult Index()
 
@@ -37,20 +35,30 @@ public class ProjectController : Controller
     {
         return View();
     }
-
-
+    
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Create(Project project)
     {
         if (ModelState.IsValid)
         {
+// Convert to UTC before saving
+            project.StartDate = ToUtc(project.StartDate);
+            project.EndDate = ToUtc(project.EndDate);
             _context.Projects.Add(project);
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
-
         return View(project);
+    }
+
+    private DateTime ToUtc(DateTime input)
+    {
+        if (input.Kind == DateTimeKind.Utc)
+            return input;
+        if (input.Kind == DateTimeKind.Unspecified)
+            return DateTime.SpecifyKind(input, DateTimeKind.Utc); // assume local is already UTC
+        return input.ToUniversalTime();
     }
 
     [HttpGet]
@@ -107,12 +115,9 @@ public class ProjectController : Controller
                     throw;
                 }
             }
-
             return RedirectToAction("Index");
         }
-
         return View(project);
-
     }
 
     private bool ProjectExists(int id)

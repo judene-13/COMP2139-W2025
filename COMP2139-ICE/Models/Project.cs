@@ -48,4 +48,6 @@ public class Project
     /// </summary>
 
     public string? Status {get;set;}
+
+    public List<ProjectTask>? Tasks { get; set; } = new();
 }
